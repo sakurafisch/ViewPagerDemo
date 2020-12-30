@@ -1,10 +1,13 @@
 package com.winnerwinter.viewpagerdemo
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.winnerwinter.viewpagerdemo.databinding.FragmentScaleBinding
+import kotlin.random.Random
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +24,8 @@ class ScaleFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var _binding: FragmentScaleBinding? = null
+    private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -33,8 +38,26 @@ class ScaleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scale, container, false)
+        _binding = FragmentScaleBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        binding.imageViewScale.setOnClickListener {
+            val factor = if (Random.nextBoolean()) 0.1f else -0.1f
+            ObjectAnimator.ofFloat(it, "scaleX", it.scaleX + factor)
+                .start()
+            ObjectAnimator.ofFloat(it, "scaleY", it.scaleY + factor)
+                .start()
+        }
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
