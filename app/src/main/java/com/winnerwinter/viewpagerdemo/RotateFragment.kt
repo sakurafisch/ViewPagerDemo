@@ -46,7 +46,7 @@ class RotateFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.imageViewRotate.setOnClickListener {
-            ObjectAnimator.ofFloat(it, "rotation", 30f)
+            ObjectAnimator.ofFloat(it, "rotation", it.rotation + 30f)
                 .start()
         }
     }
