@@ -1,15 +1,21 @@
 package com.winnerwinter.viewpagerdemo
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.winnerwinter.viewpagerdemo.databinding.FragmentTranslateBinding
+import kotlin.random.Random
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+
+private var _binding: FragmentTranslateBinding? = null
+private val binding get() = _binding!!
 
 /**
  * A simple [Fragment] subclass.
@@ -33,8 +39,22 @@ class TranslateFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_translate, container, false)
+        _binding = FragmentTranslateBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        binding.imageViewTranslate.setOnClickListener {
+            ObjectAnimator.ofFloat(it, "translationX", it.translationX + Random.nextInt(-100, +100))
+                .start()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
